@@ -31,6 +31,8 @@ router.post('/', async (req, res) => {
     let passwordHash = salt + "$" + hash
     /* 5. Guarde el registro mediante el método create */
     let user = await models.users.create({ name: name, password: passwordHash })
+    /* 5.1. Utilice el model.user_roles para crear la relación ( user.iduser , idrole) */
+    await models.users_roles.create({ users_iduser: user.iduser, roles_idrole: idrole })
     /* 6. Redireccione a la ruta con la vista principal '/users' */
     res.redirect('/users')
   } catch (error) {
