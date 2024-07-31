@@ -34,6 +34,12 @@ router.post('/login', async function (req, res, next) {
         let passwordHash = salt + "$" + hash
         /* 9. Compare passwordHash y userData.password que sean iguales. */
         if (passwordHash === userData.password) {
+          const options = {
+            expires: new Date(
+              Date.now() + (60 * 1000)
+            )
+          }
+          res.cookie("username", username, options)
           /* 10. En caso de éxito, redirija a '/users' */
           res.redirect('/users');
         } else {
