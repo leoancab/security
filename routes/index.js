@@ -40,6 +40,9 @@ router.post('/login', async function (req, res, next) {
             )
           }
           res.cookie("username", username, options)
+          req.session.loggedin = true;
+          req.session.username = username;
+
           /* 10. En caso de éxito, redirija a '/users' */
           res.redirect('/users');
         } else {
@@ -56,6 +59,11 @@ router.post('/login', async function (req, res, next) {
   } else {
     res.redirect('/');
   }
+});
+
+router.get('/logout', function (req, res, next) {
+  req.session.destroy();
+  res.render('index');
 });
 
 module.exports = router;
