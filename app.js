@@ -9,6 +9,7 @@ var logger = require('morgan');
 
 const session = require('express-session');
 var authenticateSession = require('./middleware/authentication_session');
+var authorizationSession = require('./middleware/authorization_session');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -33,7 +34,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', authenticateSession, usersRouter);
+app.use('/users', authenticateSession, authorizationSession, usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
